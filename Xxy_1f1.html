@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZZX_1F1</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,sans-serif}
+:root{
+  --purple:#a855f7; --pink:#ec4899; --cyan:#22d3ee; --bg1:#05010f; --bg2:#120a2e; --bg3:#1a0a3d;
+  --glass:rgba(255,255,255,.05); --glassBorder:rgba(255,255,255,.1);
+}
+html,body{height:100%;overflow:hidden;background:#05010f;color:#eee}
+#space{position:fixed;inset:0;z-index:0;
+  background:radial-gradient(ellipse at 20% 20%, #1a0a3d 0%, transparent 55%),
+             radial-gradient(ellipse at 80% 70%, #2a0a4d 0%, transparent 55%),
+             linear-gradient(180deg,var(--bg1),var(--bg2) 50%,var(--bg1));
+  overflow:hidden;
+}
+.stars, .stars2, .stars3{position:absolute;inset:0;background-repeat:repeat;}
+.stars{background-image:radial-gradient(1px 1px at 20px 30px,#fff,transparent),radial-gradient(1px 1px at 90px 70px,#fff,transparent),radial-gradient(1px 1px at 150px 20px,#fff,transparent),radial-gradient(1.5px 1.5px at 220px 90px,#fff,transparent),radial-gradient(1px 1px at 280px 40px,#fff,transparent);background-size:300px 200px;opacity:.6;animation:twinkle 4s ease-in-out infinite alternate}
+.stars2{background-image:radial-gradient(1px 1px at 40px 120px,#c4b5fd,transparent),radial-gradient(1px 1px at 180px 160px,#c4b5fd,transparent),radial-gradient(1.5px 1.5px at 260px 60px,#f9a8d4,transparent);background-size:320px 260px;opacity:.5;animation:twinkle 6s ease-in-out infinite alternate-reverse}
+.stars3{background-image:radial-gradient(2px 2px at 60px 60px,#67e8f9,transparent),radial-gradient(1px 1px at 200px 200px,#fff,transparent);background-size:400px 400px;opacity:.4;animation:twinkle 5s ease-in-out infinite alternate}
+@keyframes twinkle{0%{opacity:.2}100%{opacity:.8}}
+.meteor{position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;
+  box-shadow:0 0 0 0 rgba(255,255,255,0), -6px -6px 0 -1px rgba(255,255,255,.3);
+  filter:drop-shadow(0 0 6px #fff);
+}
+.meteor::before{content:'';position:absolute;top:0;left:0;width:130px;height:1.5px;
+  background:linear-gradient(90deg,rgba(255,255,255,.9),rgba(168,85,247,.4),transparent);
+  transform:translateX(-100%) rotate(0deg);transform-origin:right center;}
+.meteor{animation:shoot linear infinite}
+@keyframes shoot{
+  0%{transform:translate(0,0) rotate(215deg);opacity:0}
+  5%{opacity:1}
+  25%{opacity:0}
+  100%{transform:translate(-900px,700px) rotate(215deg);opacity:0}
+}
+.m1{top:5%;left:80%;animation-duration:4.5s;animation-delay:.2s}
+.m2{top:15%;left:60%;animation-duration:6s;animation-delay:2.5s}
+.m3{top:0%;left:95%;animation-duration:3.8s;animation-delay:5s}
+.m4{top:25%;left:40%;animation-duration:7s;animation-delay:1.2s}
+.m5{top:2%;left:70%;animation-duration:5.2s;animation-delay:7s}
+
+#app{position:relative;z-index:1;height:100vh;display:flex;align-items:center;justify-content:center}
+.hidden{display:none!important}
+
+/* LOGIN */
+#loginScreen{width:100%;max-width:380px;padding:30px;text-align:center}
+.logo{font-size:38px;font-weight:800;letter-spacing:2px;
+  background:linear-gradient(90deg,var(--cyan),var(--purple),var(--pink));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  text-shadow:0 0 30px rgba(168,85,247,.4);margin-bottom:6px}
+.tagline{color:#9ca3af;font-size:13px;margin-bottom:28px;letter-spacing:1px}
+.glassCard{background:var(--glass);backdrop-filter:blur(16px);border:1px solid var(--glassBorder);
+  border-radius:18px;padding:26px;box-shadow:0 8px 32px rgba(0,0,0,.5)}
+input,select,textarea{width:100%;background:rgba(255,255,255,.06);border:1px solid var(--glassBorder);
+  color:#fff;padding:12px 14px;border-radius:10px;font-size:14px;outline:none;margin-bottom:12px;transition:.2s}
+input:focus,select:focus,textarea:focus{border-color:var(--purple);box-shadow:0 0 0 3px rgba(168,85,247,.2)}
+button{cursor:pointer;border:none;font-weight:600;transition:.2s}
+.btnMain{width:100%;padding:13px;border-radius:10px;background:linear-gradient(90deg,var(--purple),var(--pink));
+  color:#fff;font-size:14px;letter-spacing:.5px}
+.btnMain:hover{filter:brightness(1.15);transform:translateY(-1px)}
+.hint{color:#6b7280;font-size:11px;margin-top:14px}
+
+/* MAIN LAYOUT */
+#mainScreen{width:100%;height:100%;display:flex}
+#sidebar{width:260px;background:rgba(10,5,25,.6);backdrop-filter:blur(14px);border-right:1px solid var(--glassBorder);
+  display:flex;flex-direction:column;padding:16px}
+.sideTitle{font-weight:800;font-size:20px;letter-spacing:1px;
+  background:linear-gradient(90deg,var(--cyan),var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:14px}
+.newChatBtn{padding:10px;border-radius:10px;background:linear-gradient(90deg,var(--purple),var(--pink));color:#fff;margin-bottom:14px;font-size:13px}
+#chatList{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:6px}
+.chatItem{padding:10px 12px;border-radius:10px;background:var(--glass);border:1px solid transparent;
+  font-size:13px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;color:#d1d5db}
+.chatItem:hover{background:rgba(255,255,255,.08)}
+.chatItem.active{border-color:var(--purple);background:rgba(168,85,247,.15);color:#fff}
+.chatItem span.tt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+.delBtn{background:none;color:#9ca3af;font-size:14px;padding:2px 6px;border-radius:6px}
+.delBtn:hover{color:#f87171;background:rgba(248,113,113,.1)}
+.sideFooter{display:flex;flex-direction:column;gap:8px;padding-top:12px;border-top:1px solid var(--glassBorder)}
+.sideBtn{padding:9px;border-radius:10px;background:var(--glass);border:1px solid var(--glassBorder);color:#e5e7eb;font-size:13px;text-align:left;display:flex;align-items:center;gap:8px}
+.sideBtn:hover{background:rgba(255,255,255,.1)}
+
+#chatArea{flex:1;display:flex;flex-direction:column;height:100%}
+#chatHeader{padding:16px 24px;border-bottom:1px solid var(--glassBorder);background:rgba(10,5,25,.4);backdrop-filter:blur(10px);
+  display:flex;align-items:center;justify-content:space-between}
+#chatHeader .title{font-weight:700;font-size:15px}
+.badge{font-size:11px;padding:3px 9px;border-radius:20px;background:rgba(168,85,247,.2);color:#d8b4fe;border:1px solid rgba(168,85,247,.3)}
+
+#messages{flex:1;overflow-y:auto;padding:20px 24px;display:flex;flex-direction:column;gap:16px}
+.msg{max-width:75%;padding:12px 16px;border-radius:16px;font-size:14px;line-height:1.55;white-space:pre-wrap;word-wrap:break-word}
+.msg.user{align-self:flex-end;background:linear-gradient(135deg,var(--purple),var(--pink));color:#fff;border-bottom-right-radius:4px}
+.msg.ai{align-self:flex-start;background:var(--glass);border:1px solid var(--glassBorder);border-bottom-left-radius:4px}
+.msg img.att{max-width:220px;border-radius:10px;margin-top:8px;display:block}
+.msg.ai.typing{color:#9ca3af;font-style:italic}
+
+.codeWrap{margin-top:10px;border-radius:10px;overflow:hidden;border:1px solid var(--glassBorder);background:#0d0620}
+.codeHead{display:flex;justify-content:space-between;align-items:center;padding:7px 12px;background:rgba(255,255,255,.05);font-size:12px;color:#c4b5fd}
+.codeHead .actions{display:flex;gap:6px}
+.codeHead button{background:rgba(255,255,255,.08);color:#e5e7eb;border-radius:6px;padding:4px 9px;font-size:11px}
+.codeHead button:hover{background:rgba(255,255,255,.18)}
+.codeWrap pre{margin:0;padding:12px;overflow-x:auto;font-size:12.5px;color:#e2e8f0;font-family:'Consolas',monospace}
+
+#inputBar{padding:14px 24px 20px;border-top:1px solid var(--glassBorder);background:rgba(10,5,25,.4)}
+#attachPreview{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.attChip{background:var(--glass);border:1px solid var(--glassBorder);border-radius:8px;padding:5px 10px;font-size:12px;display:flex;align-items:center;gap:6px}
+.attChip button{background:none;color:#f87171;font-size:13px}
+.inputRow{display:flex;gap:10px;align-items:flex-end}
+#msgInput{flex:1;resize:none;max-height:120px;margin-bottom:0}
+.iconBtn{background:var(--glass);border:1px solid var(--glassBorder);color:#e5e7eb;width:44px;height:44px;border-radius:12px;font-size:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.iconBtn:hover{background:rgba(255,255,255,.12)}
+.sendBtn{background:linear-gradient(90deg,var(--purple),var(--pink));color:#fff;width:44px;height:44px;border-radius:12px;font-size:18px;flex-shrink:0}
+.sendBtn:hover{filter:brightness(1.15)}
+
+/* CLOCK */
+#clockBar{position:fixed;top:8px;right:14px;z-index:40;font-size:11px;color:#c4b5fd;
+  background:rgba(10,5,25,.55);backdrop-filter:blur(8px);border:1px solid var(--glassBorder);
+  padding:4px 10px;border-radius:20px;letter-spacing:.3px;pointer-events:none}
+
+/* LOCK SCREEN */
+#lockScreen{width:100%;max-width:380px;padding:30px;text-align:center}
+#lockScreen .lockIcon{font-size:46px;margin-bottom:10px}
+#lockScreen h2{font-size:19px;margin-bottom:8px;color:#f9a8d4}
+#lockScreen p{color:#9ca3af;font-size:13px;margin-bottom:18px}
+
+/* MODAL SETTINGS */
+.modalOverlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:50}
+.modalBox{width:100%;max-width:420px;max-height:88vh;overflow-y:auto;background:var(--bg3);border:1px solid var(--glassBorder);border-radius:18px;padding:24px}
+.modalBox h2{font-size:18px;margin-bottom:16px;background:linear-gradient(90deg,var(--cyan),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
+.label{font-size:12px;color:#9ca3af;margin-bottom:5px;display:block}
+.row2{display:flex;gap:10px}
+.modalActions{display:flex;gap:10px;margin-top:6px}
+.btnGhost{flex:1;padding:11px;border-radius:10px;background:var(--glass);border:1px solid var(--glassBorder);color:#e5e7eb;font-size:13px}
+.btnGhost:hover{background:rgba(255,255,255,.1)}
+
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-thumb{background:rgba(168,85,247,.4);border-radius:3px}
+</style>
+</head>
+<body>
+
+<div id="space">
+  <div class="stars"></div><div class="stars2"></div><div class="stars3"></div>
+  <div class="meteor m1"></div><div class="meteor m2"></div><div class="meteor m3"></div>
+  <div class="meteor m4"></div><div class="meteor m5"></div>
+</div>
+
+<div id="clockBar">--:--:--</div>
+
+<div id="app">
+
+  <!-- LOCK SCREEN -->
+  <div id="lockScreen" class="hidden">
+    <div class="lockIcon">🔒</div>
+    <div class="glassCard">
+      <h2>Server Ditutup</h2>
+      <p>ZZX_1F1 lagi dikunci owner. Coba lagi nanti ya 🚀</p>
+      <button class="btnMain" onclick="backToLogin()">Kembali</button>
+    </div>
+  </div>
+
+  <!-- LOGIN -->
+  <div id="loginScreen">
+    <div class="logo">ZZX_1F1</div>
+    <div class="tagline">AI CHAT FROM DEEP SPACE</div>
+    <div class="glassCard">
+      <input id="loginUser" placeholder="Username">
+      <input id="loginPass" type="password" placeholder="Password">
+      <button class="btnMain" onclick="doLogin()">Masuk</button>
+      <div class="hint">Isi username & password bebas, langsung masuk 🚀</div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div id="mainScreen" class="hidden">
+    <div id="sidebar">
+      <div class="sideTitle">ZZX_1F1</div>
+      <button class="newChatBtn" onclick="newChat()">+ Chat Baru</button>
+      <div id="chatList"></div>
+      <div class="sideFooter">
+        <button class="sideBtn" onclick="openSettings()">⚙️ Pengaturan (Chat, API Key, Logout)</button>
+      </div>
+    </div>
+
+    <div id="chatArea">
+      <div id="chatHeader">
+        <div class="title" id="chatTitle">Chat Baru</div>
+        <div class="badge" id="providerBadge">Gemini</div>
+      </div>
+      <div id="messages"></div>
+      <div id="inputBar">
+        <div id="attachPreview"></div>
+        <div class="inputRow">
+          <button class="iconBtn" onclick="fileInput.click()" title="Kirim foto/file">📎</button>
+          <input type="file" id="fileInput" class="hidden" accept="*/*" onchange="handleFile(event)">
+          <textarea id="msgInput" rows="1" placeholder="Tulis pesan..." onkeydown="handleKey(event)"></textarea>
+          <button class="sendBtn" onclick="sendMessage()">➤</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- SETTINGS MODAL -->
+<div id="settingsModal" class="modalOverlay hidden">
+  <div class="modalBox">
+    <h2>⚙️ Pengaturan ZZX_1F1</h2>
+
+    <label class="label">👤 Akun (<span id="setAccName"></span>)</label>
+    <div class="row2" style="margin-bottom:14px">
+      <button class="btnGhost" onclick="clearCurrentChat()">🗑️ Hapus Chat Ini</button>
+      <button class="btnGhost" style="color:#f87171" onclick="doLogout()">🚪 Logout</button>
+    </div>
+
+    <label class="label">Provider AI Aktif</label>
+    <select id="setProvider">
+      <option value="gemini">Gemini</option>
+      <option value="groq">Groq</option>
+    </select>
+
+    <label class="label">Gemini API Key <a href="https://aistudio.google.com/apikey" target="_blank" style="color:#67e8f9">(ambil key di sini)</a></label>
+    <input id="setGeminiKey" placeholder="AIzaSy...">
+    <label class="label">Gemini Model</label>
+    <input id="setGeminiModel" placeholder="gemini-2.0-flash">
+
+    <label class="label">Groq API Key <a href="https://console.groq.com/keys" target="_blank" style="color:#67e8f9">(ambil key di sini)</a></label>
+    <input id="setGroqKey" placeholder="gsk_...">
+    <label class="label">Groq Model</label>
+    <input id="setGroqModel" placeholder="llama-3.3-70b-versatile">
+
+    <label class="label">Custom API Base URL (opsional, buat OpenRouter dll)</label>
+    <input id="setCustomUrl" placeholder="https://openrouter.ai/api/v1/chat/completions">
+
+    <label class="label" id="ownerInfo" style="color:#67e8f9"></label>
+
+    <div class="modalActions">
+      <button class="btnGhost" onclick="closeSettings()">Batal</button>
+      <button class="btnMain" style="flex:1" onclick="saveSettings()">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ===================== STATE ===================== */
+let user = null;
+let chats = {};
+let currentChatId = null;
+let settings = { provider:'gemini', geminiKey:'', geminiModel:'gemini-2.0-flash', groqKey:'', groqModel:'llama-3.3-70b-versatile', customUrl:'' };
+let pendingAttachment = null; // {name, type, base64, isText, textContent}
+let owner = null;
+let locked = false;
+
+/* CLOCK */
+function tickClock(){
+  const d = new Date();
+  const pad = n=>String(n).padStart(2,'0');
+  const tgl = pad(d.getDate())+'/'+pad(d.getMonth()+1)+'/'+d.getFullYear();
+  const jam = pad(d.getHours())+':'+pad(d.getMinutes())+':'+pad(d.getSeconds());
+  document.getElementById('clockBar').textContent = tgl+' • '+jam;
+}
+setInterval(tickClock, 1000);
+tickClock();
+
+/* ===================== INIT ===================== */
+function loadAll(){
+  user = localStorage.getItem('zzx1f1_user');
+  owner = localStorage.getItem('zzx1f1_owner');
+  locked = localStorage.getItem('zzx1f1_locked') === '1';
+  try{ chats = JSON.parse(localStorage.getItem('zzx1f1_chats')||'{}'); }catch(e){ chats={}; }
+  try{ settings = Object.assign(settings, JSON.parse(localStorage.getItem('zzx1f1_settings')||'{}')); }catch(e){}
+}
+function saveChats(){ localStorage.setItem('zzx1f1_chats', JSON.stringify(chats)); }
+function saveSettingsToStorage(){ localStorage.setItem('zzx1f1_settings', JSON.stringify(settings)); }
+
+loadAll();
+if(user){
+  if(locked && user!==owner){ showLockScreen(); } else { showMain(); }
+}
+
+/* ===================== LOGIN / LOGOUT ===================== */
+function doLogin(){
+  const u = document.getElementById('loginUser').value.trim();
+  const p = document.getElementById('loginPass').value.trim();
+  if(!u || !p){ alert('Isi username & password dulu bro'); return; }
+  user = u;
+  localStorage.setItem('zzx1f1_user', u);
+  if(!owner){
+    owner = u;
+    localStorage.setItem('zzx1f1_owner', owner);
+  }
+  if(locked && user!==owner){ showLockScreen(); return; }
+  showMain();
+}
+function doLogout(){
+  if(!confirm('Yakin mau logout?')) return;
+  localStorage.removeItem('zzx1f1_user');
+  user = null;
+  document.getElementById('settingsModal').classList.add('hidden');
+  document.getElementById('mainScreen').classList.add('hidden');
+  document.getElementById('lockScreen').classList.add('hidden');
+  document.getElementById('loginScreen').classList.remove('hidden');
+}
+function backToLogin(){
+  localStorage.removeItem('zzx1f1_user');
+  user = null;
+  document.getElementById('lockScreen').classList.add('hidden');
+  document.getElementById('loginScreen').classList.remove('hidden');
+}
+function showLockScreen(){
+  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('mainScreen').classList.add('hidden');
+  document.getElementById('lockScreen').classList.remove('hidden');
+}
+function showMain(){
+  document.getElementById('lockScreen').classList.add('hidden');
+  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('mainScreen').classList.remove('hidden');
+  document.getElementById('setAccName').textContent = user;
+  if(Object.keys(chats).length===0){ newChat(); } else {
+    currentChatId = Object.keys(chats).sort((a,b)=>chats[b].updated-chats[a].updated)[0];
+  }
+  renderSidebar();
+  renderMessages();
+  updateProviderBadge();
+}
+
+/* ===================== CHAT MGMT ===================== */
+function newChat(){
+  const id = 'c_'+Date.now();
+  chats[id] = { title:'Chat Baru', messages:[], updated:Date.now() };
+  currentChatId = id;
+  saveChats();
+  renderSidebar();
+  renderMessages();
+}
+function selectChat(id){
+  currentChatId = id;
+  renderSidebar();
+  renderMessages();
+}
+function deleteChat(id, ev){
+  ev.stopPropagation();
+  if(!confirm('Hapus chat ini?')) return;
+  delete chats[id];
+  saveChats();
+  if(currentChatId===id){
+    const rest = Object.keys(chats);
+    currentChatId = rest.length ? rest[0] : null;
+    if(!currentChatId) newChat();
+  }
+  renderSidebar();
+  renderMessages();
+}
+function renderSidebar(){
+  const list = document.getElementById('chatList');
+  list.innerHTML = '';
+  const ids = Object.keys(chats).sort((a,b)=>chats[b].updated-chats[a].updated);
+  ids.forEach(id=>{
+    const c = chats[id];
+    const div = document.createElement('div');
+    div.className = 'chatItem'+(id===currentChatId?' active':'');
+    div.onclick = ()=>selectChat(id);
+    div.innerHTML = `<span class="tt">${escapeHtml(c.title||'Chat Baru')}</span><button class="delBtn" onclick="deleteChat('${id}', event)">✕</button>`;
+    list.appendChild(div);
+  });
+}
+
+/* ===================== MESSAGES RENDER ===================== */
+function renderMessages(){
+  const box = document.getElementById('messages');
+  box.innerHTML = '';
+  if(!currentChatId || !chats[currentChatId]) return;
+  document.getElementById('chatTitle').textContent = chats[currentChatId].title || 'Chat Baru';
+  chats[currentChatId].messages.forEach(m=>{
+    box.appendChild(renderMsgEl(m));
+  });
+  box.scrollTop = box.scrollHeight;
+}
+function renderMsgEl(m){
+  const div = document.createElement('div');
+  div.className = 'msg '+(m.role==='user'?'user':'ai');
+  if(m.role==='user'){
+    div.innerHTML = escapeHtml(m.content).replace(/\n/g,'<br>');
+    if(m.image){
+      const img = document.createElement('img');
+      img.src = m.image; img.className='att';
+      div.appendChild(img);
+    }
+  } else {
+    div.innerHTML = renderWithCode(m.content);
+  }
+  return div;
+}
+
+/* ===================== CODE BLOCK PARSER ===================== */
+let codeBlockCounter = 0;
+function renderWithCode(text){
+  const parts = text.split(/```/);
+  let html = '';
+  for(let i=0;i<parts.length;i++){
+    if(i%2===0){
+      html += escapeHtml(parts[i]).replace(/\n/g,'<br>');
+    } else {
+      let block = parts[i];
+      let firstLine = block.split('\n')[0].trim();
+      let lang = /^[a-zA-Z0-9+#.-]{1,20}$/.test(firstLine) ? firstLine : '';
+      let code = lang ? block.slice(firstLine.length+1) : block;
+      code = code.replace(/^\n/,'').replace(/\n$/,'');
+      codeBlockCounter++;
+      const cid = 'code_'+codeBlockCounter;
+      window['__code_'+cid] = code;
+      window['__lang_'+cid] = lang||'text';
+      html += `<div class="codeWrap">
+        <div class="codeHead"><span>${lang||'code'}</span>
+          <div class="actions">
+            <button onclick="copyCode('${cid}')">Copy</button>
+            <button onclick="downloadCode('${cid}')">Download</button>
+            <button onclick="runCode('${cid}')">Run</button>
+          </div>
+        </div>
+        <pre id="${cid}">${escapeHtml(code)}</pre>
+      </div>`;
+    }
+  }
+  return html;
+}
+function copyCode(cid){
+  navigator.clipboard.writeText(window['__code_'+cid]||'').then(()=>{
+    flashBtn(event.target,'Copied!');
+  });
+}
+function downloadCode(cid){
+  const lang = window['__lang_'+cid]||'text';
+  const extMap = {javascript:'js',js:'js',python:'py',html:'html',css:'css',json:'json',java:'java',c:'c',cpp:'cpp','c++':'cpp',php:'php',bash:'sh',shell:'sh',sql:'sql',typescript:'ts',ts:'ts'};
+  const ext = extMap[lang.toLowerCase()] || 'txt';
+  const blob = new Blob([window['__code_'+cid]||''], {type:'text/plain'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'zzx1f1_code_'+cid+'.'+ext;
+  a.click();
+}
+function runCode(cid){
+  const lang = (window['__lang_'+cid]||'').toLowerCase();
+  const code = window['__code_'+cid]||'';
+  let html = '';
+  if(lang==='html'){
+    html = code;
+  } else if(lang==='javascript'||lang==='js'){
+    html = `<html><body style="background:#0d0620;color:#fff;font-family:monospace;padding:20px">
+    <div id="out"></div>
+    <script>
+      const log = console.log;
+      console.log = function(...a){ document.getElementById('out').innerHTML += a.join(' ')+'<br>'; log(...a); }
+      try{ ${code} }catch(e){ document.getElementById('out').innerHTML += 'Error: '+e.message; }
+    <\/script></body></html>`;
+  } else {
+    alert('Run cuma support HTML & JavaScript bro, buat lainnya download aja ya');
+    return;
+  }
+  const blob = new Blob([html], {type:'text/html'});
+  window.open(URL.createObjectURL(blob), '_blank');
+}
+function flashBtn(el,text){
+  const old = el.textContent;
+  el.textContent = text;
+  setTimeout(()=>el.textContent=old, 1200);
+}
+
+/* ===================== FILE / IMAGE ATTACH ===================== */
+function handleFile(ev){
+  const f = ev.target.files[0];
+  if(!f) return;
+  const reader = new FileReader();
+  const isImage = f.type.startsWith('image/');
+  const isText = /text|json|javascript|html|css|xml|csv/.test(f.type) || /\.(txt|js|json|html|css|md|py|java|c|cpp|csv|log)$/i.test(f.name);
+  reader.onload = function(e){
+    pendingAttachment = { name:f.name, type:f.type, isImage, isText };
+    if(isImage){ pendingAttachment.base64 = e.target.result; }
+    else if(isText){ pendingAttachment.textContent = e.target.result; }
+    else { pendingAttachment.base64 = e.target.result; }
+    renderAttachPreview();
+  };
+  if(isImage || !isText) reader.readAsDataURL(f);
+  else reader.readAsText(f);
+  ev.target.value = '';
+}
+function renderAttachPreview(){
+  const box = document.getElementById('attachPreview');
+  box.innerHTML = '';
+  if(!pendingAttachment) return;
+  const chip = document.createElement('div');
+  chip.className = 'attChip';
+  chip.innerHTML = `<span>${pendingAttachment.isImage?'🖼️':'📄'} ${escapeHtml(pendingAttachment.name)}</span><button onclick="pendingAttachment=null;renderAttachPreview()">✕</button>`;
+  box.appendChild(chip);
+}
+
+/* ===================== SEND MESSAGE ===================== */
+function handleKey(e){
+  if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); sendMessage(); }
+}
+async function sendMessage(){
+  const input = document.getElementById('msgInput');
+  const text = input.value.trim();
+  if(!text && !pendingAttachment) return;
+
+  const cmd = text.toLowerCase();
+  if(cmd==='/kunci' || cmd==='/tutup'){
+    input.value='';
+    if(user!==owner){ alert('Cuma owner yang bisa nutup server bro'); return; }
+    locked = true;
+    localStorage.setItem('zzx1f1_locked','1');
+    alert('🔒 Server ZZX_1F1 sekarang ditutup buat selain owner.');
+    return;
+  }
+  if(cmd==='/buka' || cmd==='/bukakunci' || cmd==='/unlock'){
+    input.value='';
+    if(user!==owner){ alert('Cuma owner yang bisa buka server bro'); return; }
+    locked = false;
+    localStorage.setItem('zzx1f1_locked','0');
+    alert('🔓 Server ZZX_1F1 udah dibuka lagi.');
+    return;
+  }
+
+  if(!currentChatId) newChat();
+
+  const chat = chats[currentChatId];
+  let userMsg = { role:'user', content:text };
+  let promptExtra = '';
+
+  if(pendingAttachment){
+    if(pendingAttachment.isImage){
+      userMsg.image = pendingAttachment.base64;
+    } else if(pendingAttachment.isText){
+      promptExtra = `\n\n[File terlampir: ${pendingAttachment.name}]\n\`\`\`\n${pendingAttachment.textContent}\n\`\`\``;
+    } else {
+      promptExtra = `\n\n[File terlampir: ${pendingAttachment.name} - tipe biner, tidak bisa dibaca langsung]`;
+    }
+  }
+
+  chat.messages.push(userMsg);
+  if(chat.messages.length===1) chat.title = text.slice(0,30) || pendingAttachment.name;
+  chat.updated = Date.now();
+  input.value = '';
+  const attachSnapshot = pendingAttachment;
+  pendingAttachment = null;
+  renderAttachPreview();
+  renderSidebar();
+  renderMessages();
+
+  // typing indicator
+  const box = document.getElementById('messages');
+  const typingEl = document.createElement('div');
+  typingEl.className = 'msg ai typing';
+  typingEl.textContent = 'ZZX_1F1 sedang mengetik...';
+  box.appendChild(typingEl);
+  box.scrollTop = box.scrollHeight;
+
+  try{
+    const replyText = await callAI(chat.messages, text+promptExtra, attachSnapshot);
+    typingEl.remove();
+    chat.messages.push({ role:'assistant', content: replyText });
+    chat.updated = Date.now();
+    saveChats();
+    renderMessages();
+  }catch(err){
+    typingEl.remove();
+    chat.messages.push({ role:'assistant', content: '⚠️ Error: '+err.message });
+    saveChats();
+    renderMessages();
+  }
+}
+
+/* ===================== AI CALLS ===================== */
+async function callAI(history, latestText, attachment){
+  if(settings.provider==='gemini'){
+    return await callGemini(history, latestText, attachment);
+  } else {
+    return await callGroq(history, latestText);
+  }
+}
+async function callGemini(history, latestText, attachment){
+  if(!settings.geminiKey) throw new Error('Gemini API key belum diisi, buka Pengaturan dulu');
+  const model = settings.geminiModel || 'gemini-2.0-flash';
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${settings.geminiKey}`;
+
+  const contents = history.slice(0,-1).map(m=>({
+    role: m.role==='assistant' ? 'model' : 'user',
+    parts: [{text: m.content||''}]
+  }));
+
+  const parts = [{ text: latestText }];
+  if(attachment && attachment.isImage){
+    const base64Data = attachment.base64.split(',')[1];
+    parts.push({ inline_data: { mime_type: attachment.type, data: base64Data } });
+  }
+  contents.push({ role:'user', parts });
+
+  const res = await fetch(url, {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ contents })
+  });
+  const data = await res.json();
+  if(data.error) throw new Error(data.error.message);
+  return data.candidates?.[0]?.content?.parts?.map(p=>p.text).join('') || '(kosong)';
+}
+async function callGroq(history, latestText){
+  if(!settings.groqKey) throw new Error('Groq API key belum diisi, buka Pengaturan dulu');
+  const model = settings.groqModel || 'llama-3.3-70b-versatile';
+  const url = settings.customUrl || 'https://api.groq.com/openai/v1/chat/completions';
+
+  const messages = history.map(m=>({ role: m.role==='assistant'?'assistant':'user', content: m.content||'' }));
+
+  const res = await fetch(url, {
+    method:'POST',
+    headers:{ 'Content-Type':'application/json', 'Authorization':'Bearer '+settings.groqKey },
+    body: JSON.stringify({ model, messages })
+  });
+  const data = await res.json();
+  if(data.error) throw new Error(data.error.message || JSON.stringify(data.error));
+  return data.choices?.[0]?.message?.content || '(kosong)';
+}
+
+/* ===================== SETTINGS MODAL ===================== */
+function clearCurrentChat(){
+  if(!currentChatId) return;
+  if(!confirm('Hapus semua pesan di chat ini?')) return;
+  chats[currentChatId].messages = [];
+  chats[currentChatId].title = 'Chat Baru';
+  saveChats();
+  renderSidebar();
+  renderMessages();
+  closeSettings();
+}
+function openSettings(){
+  document.getElementById('setAccName').textContent = user||'';
+  document.getElementById('ownerInfo').textContent = (user===owner)
+    ? '👑 Kamu owner. Ketik /kunci atau /tutup di chat buat nutup server, /buka buat buka lagi.'
+    : '';
+  document.getElementById('setProvider').value = settings.provider;
+  document.getElementById('setGeminiKey').value = settings.geminiKey;
+  document.getElementById('setGeminiModel').value = settings.geminiModel;
+  document.getElementById('setGroqKey').value = settings.groqKey;
+  document.getElementById('setGroqModel').value = settings.groqModel;
+  document.getElementById('setCustomUrl').value = settings.customUrl;
+  document.getElementById('settingsModal').classList.remove('hidden');
+}
+function closeSettings(){ document.getElementById('settingsModal').classList.add('hidden'); }
+function saveSettings(){
+  settings.provider = document.getElementById('setProvider').value;
+  settings.geminiKey = document.getElementById('setGeminiKey').value.trim();
+  settings.geminiModel = document.getElementById('setGeminiModel').value.trim() || 'gemini-2.0-flash';
+  settings.groqKey = document.getElementById('setGroqKey').value.trim();
+  settings.groqModel = document.getElementById('setGroqModel').value.trim() || 'llama-3.3-70b-versatile';
+  settings.customUrl = document.getElementById('setCustomUrl').value.trim();
+  saveSettingsToStorage();
+  updateProviderBadge();
+  closeSettings();
+}
+function updateProviderBadge(){
+  document.getElementById('providerBadge').textContent = settings.provider==='gemini' ? 'Gemini' : 'Groq';
+}
+
+/* ===================== UTILS ===================== */
+function escapeHtml(str){
+  return (str||'').replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+</script>
+</body>
+</html>
